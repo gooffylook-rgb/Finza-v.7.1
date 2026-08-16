@@ -1,0 +1,63 @@
+var FINZA_CACHE="finza-m-v5993-f1";
+var FINZA_URLS=[
+  "./",
+  "./index.html",
+  "./manifest.json",
+  "./icon.svg",
+  "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+];
+self.addEventListener("install",function(event){
+  event.waitUntil(
+    caches.open(FINZA_CACHE).then(function(cache){
+      return cache.addAll(FINZA_URLS).catch(function(e){
+        console.warn("Cache parcial:",e);
+        return cache.add("./index.html");
+      });
+    })
+  );
+  self.skipWaiting();
+});
+self.addEventListener("activate",function(event){
+  event.waitUntil(
+    caches.keys().then(function(keys){
+      return Promise.all(
+        keys.filter(function(k){return k!==FINZA_CACHE;}).map(function(k){return caches.delete(k);})
+      );
+    })
+  );
+  self.clients.claim();
+});
+self.addEventListener("fetch",function(event){
+  if(event.request.method!=="GET")return;
+  var url=new URL(event.request.url);
+  if(url.origin==="https://cdnjs.cloudflare.com"){
+    event.respondWith(
+      caches.match(event.request).then(function(cached){
+        if(cached)return cached;
+        return fetch(event.request).then(function(res){
+          var clone=res.clone();
+          caches.open(FINZA_CACHE).then(function(cache){cache.put(event.request,clone);});
+          return res;
+        });
+      })
+    );
+    return;
+  }
+  event.respondWith(
+    caches.match(event.request).then(function(cached){
+      if(cached)return cached;
+      return fetch(event.request).then(function(res){
+        if(res&&res.status===200){
+          var clone=res.clone();
+          caches.open(FINZA_CACHE).then(function(cache){cache.put(event.request,clone);});
+        }
+        return res;
+      }).catch(function(){
+        if(event.request.destination==="document"){
+          return caches.match("./index.html");
+        }
+        return new Response("Sin conexion",{status:503});
+      });
+    })
+  );
+});
