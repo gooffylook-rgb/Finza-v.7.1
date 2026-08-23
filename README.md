@@ -1,27 +1,31 @@
-# Finza.M v5.9.9.3 - PWA
+# Finza.M v5.9.9.3 — Red Team 05.4 FINAL
 
-Plataforma integral de gestion para el sector no estatal cubano.
+Plataforma integral de gestión para el sector no estatal cubano.
 
-## Estructura de archivos
+## Publicación
 
-```
-finza-m/
-  index.html
-  manifest.json
-  sw.js
-  icon.svg
-  README.md
-```
+Archivos: `index.html`, `manifest.json`, `sw.js`, `icon.svg`.
 
-## Activar GitHub Pages
+En GitHub Pages, sustituir los archivos de la raíz y mantener `main / root` como fuente.
 
-1. Suba todos los archivos a la raiz del repositorio.
-2. Settings > Pages.
-3. Source: Deploy from a branch.
-4. Branch: main / root > Save.
-5. La app estara en: https://SU-USUARIO.github.io/NOMBRE-REPO/
+El Service Worker usa una caché nueva (`finza-m-v5993-rt54-final-1`) para forzar la transición desde compilaciones anteriores.
 
-## Uso offline
+## Licenciamiento 05.4
 
-La primera carga requiere internet (para descargar jsPDF).
-Despues, el Service Worker cachea todo y funciona sin conexion.
+- Licencia permanente o temporal.
+- Número máximo de instalaciones/equipos.
+- Firma criptográfica FZL3.
+- Usuarios y roles separados de la licencia.
+- Super Usuario separado del mecanismo de licenciamiento.
+- Funcionamiento offline.
+- Preparación para registro online híbrido.
+
+La clave privada de emisión NO se publica en este repositorio.
+
+## Solicitud de licencia
+
+El botón de solicitud abre WhatsApp al **+53 5451 4448** mediante `https://wa.me/5354514448`.
+
+## Seguridad
+
+GitHub Pages distribuye la aplicación. El registro online, cuando se implemente, debe vivir fuera del repositorio público. No deben almacenarse aquí claves privadas, credenciales del servidor ni la base de datos de licencias.
